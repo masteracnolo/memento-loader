@@ -1,0 +1,20 @@
+header{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+
+    margin-left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+
+    line-height: 1;
+}
+
+header h1{
+    font-size: 64px;
+}
+
+header p{
+    margin-top: 0;
+    font-size: 30px;
+}

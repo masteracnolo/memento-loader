@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* Variables */
+@import url(variables.css);
+
+/* Layout */
+@import url(layout/header.css);
+@import url(layout/main.css);
+@import url(layout/footer.css);
+
+/* Components */
+@import url(components/button.css);
+
+/* *{
+    outline: solid red 2px;
+} */
+
+html{
+    scroll-behavior: smooth;  
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+
+    height: 100vh; /* A Remplacer par 100% quand il y à du contenu */
+
+    color: var(--default-text-color);
+    background: var(--default-background-color);
+
+    font-family: Inter;
+}
