@@ -1,4 +1,21 @@
 // Gestion du menu et du backdrop en JS vanilla
+// Fonctions de sauvegarde/chargement localStorage
+function saveEntries(entries) {
+    localStorage.setItem('formEntriesList', JSON.stringify(entries));
+}
+function loadEntries() {
+    const data = localStorage.getItem('formEntriesList');
+    if (!data) return [];
+    try {
+        return JSON.parse(data);
+    } catch {
+        return [];
+    }
+}
+
+main();
+
+function main() {
 document.addEventListener('DOMContentLoaded', function() {
     const menuBtn = document.querySelector('.add');
     const menuContainer = document.getElementById('menu-container');
@@ -19,8 +36,25 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeBtn) closeBtn.addEventListener('click', hideMenu);
     backdrop.addEventListener('click', hideMenu);
 
-    // Tableau global pour stocker les entrées
-    if (!window.formEntriesList) window.formEntriesList = [];
+    // Chargement depuis le localStorage
+    window.formEntriesList = loadEntries();
+    // Affiche les cards existantes au chargement
+    const container = document.getElementById('display-container');
+    window.formEntriesList.sort((a, b) => {
+        const da = new Date(a.date + 'T' + a.hour);
+        const db = new Date(b.date + 'T' + b.hour);
+        return da - db;
+    });
+    window.formEntriesList.forEach(entry => {
+        const card = createCard(entry);
+        container.appendChild(card);
+        setInterval(() => {
+            const targetDate = new Date(entry.date + 'T' + entry.hour);
+            const countdownElem = card.querySelector('.countdown-value');
+            if (countdownElem) countdownElem.textContent = getCountdown(targetDate);
+        }, 1000);
+    });
+
     menuContainer.addEventListener('submit', function(e) {
         e.preventDefault();
         // Récupère les valeurs du formulaire
@@ -47,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Réaffiche toutes les cards dans l'ordre
-        const container = document.getElementById('display-container');
         container.innerHTML = '';
         window.formEntriesList.forEach(entry => {
             const card = createCard(entry);
@@ -58,9 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (countdownElem) countdownElem.textContent = getCountdown(targetDate);
             }, 1000);
         });
-
+        // Sauvegarde dans le localStorage
+        saveEntries(window.formEntriesList);
         hideMenu();
     });
+    });
+}
 
 // Fonction pour formater la date cible en string lisible
 function formatDateTime(dateStr, timeStr) {
@@ -116,13 +152,25 @@ function createCard({ name, date, hour, note }) {
     const card = document.createElement('div');
     card.className = 'memento-card';
     const targetDate = new Date(date + 'T' + hour);
+    // Génère un id unique pour la suppression
+    const cardId = name + '_' + date + '_' + hour;
+    card.setAttribute('data-card-id', cardId);
     card.innerHTML = `
+        <button class="delete-card-btn" title="Supprimer" aria-label="Supprimer">&times;</button>
         <div class="card-title"><strong>${name}</strong> <span class="arrive-label">arrive dans</span> <span class="countdown-value">${getCountdown(targetDate)}</span></div>
         <div class="card-details">
             <div class="card-date">${formatDateTime(date, hour)}</div>
             ${note ? `<div class="card-note">${note}</div>` : ''}
         </div>
     `;
+    // Gestion suppression
+    card.querySelector('.delete-card-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Supprime du DOM
+        card.remove();
+        // Supprime du tableau et du localStorage
+        window.formEntriesList = window.formEntriesList.filter(entry => !(entry.name === name && entry.date === date && entry.hour === hour));
+        saveEntries(window.formEntriesList);
+    });
     return card;
 }
-});
