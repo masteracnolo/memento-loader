@@ -23,14 +23,17 @@
         <button class="add" data-aos="zoom-in"><p>+</p></button>
         
         <form class="popover-form" id="menu-container" data-aos="zoom-in">
+
+            <label for="nom-input">Nom <span class="required-asterisk" style="color:#e53935;font-weight:bold;">*</span></label>
+            <input type="text" id="nom-input" name="nom" required>
+
             <label for="date-input">Date <span class="required-asterisk" style="color:#e53935;font-weight:bold;">*</span></label>
             <input type="date" id="date-input" name="date" required>
 
             <label for="time-input">Heure <span class="required-asterisk" style="color:#e53935;font-weight:bold;">*</span></label>
-
             <input type="time" id="time-input" name="time" required>
-            <label for="note-input">Note</label>
 
+            <label for="note-input">Note</label>
             <textarea id="note-input" name="note" rows="2" placeholder="Ajouter une note..."></textarea>
 
             <div class="popover-actions">
@@ -46,6 +49,22 @@
     
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="script/aos-init.js"></script>
+    <script>
+    // Valeurs par défaut pour date et heure
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date-input');
+        const timeInput = document.getElementById('time-input');
+        if (dateInput) {
+            const today = new Date();
+            dateInput.value = today.toISOString().split('T')[0];
+        }
+        if (timeInput) {
+            const now = new Date();
+            const pad = n => n.toString().padStart(2, '0');
+            timeInput.value = pad(now.getHours()) + ':' + pad(now.getMinutes());
+        }
+    });
+    </script>
     <script src="script/script.js"></script>
     <script src="script/loader.js"></script>
 </body>
