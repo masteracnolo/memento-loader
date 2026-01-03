@@ -117,10 +117,11 @@ function createCard({ name, date, hour, note }) {
     card.className = 'memento-card';
     const targetDate = new Date(date + 'T' + hour);
     card.innerHTML = `
-        <div class="countdown"><span class="countdown-value">${getCountdown(targetDate)}</span></div>
-        <div class="card-nom"><strong>${name}</strong></div>
-        <div class="card-date">${formatDateTime(date, hour)}</div>
-        ${note ? `<div class="card-note">${note}</div>` : ''}
+        <div class="card-title"><strong>${name}</strong> <span class="arrive-label">arrive dans</span> <span class="countdown-value">${getCountdown(targetDate)}</span></div>
+        <div class="card-details">
+            <div class="card-date">${formatDateTime(date, hour)}</div>
+            ${note ? `<div class="card-note">${note}</div>` : ''}
+        </div>
     `;
     return card;
 }
