@@ -6,26 +6,46 @@
     <title>Memento Loader</title>
 
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 </head>
 <body>
-    <header>
+    <header data-aos="fade-down">
         <h1>Memento Loader</h1>
         <p>Remember What's Coming Next</p>
     </header>
 
     <main>
 
-        <section class="display-container" id="display-container">
+        <section class="display-container" id="display-container" data-aos="fade-up">
             
         </section>
 
-        <button onclick="displayMenu()" class="add">+</button>
+        <button class="add" data-aos="zoom-in"><p>+</p></button>
         
-        </section>
+        <form class="popover-form" id="menu-container" data-aos="zoom-in">
+            <label for="date-input">Date <span class="required-asterisk" style="color:#e53935;font-weight:bold;">*</span></label>
+            <input type="date" id="date-input" name="date" required>
+
+            <label for="time-input">Heure <span class="required-asterisk" style="color:#e53935;font-weight:bold;">*</span></label>
+
+            <input type="time" id="time-input" name="time" required>
+            <label for="note-input">Note</label>
+
+            <textarea id="note-input" name="note" rows="2" placeholder="Ajouter une note..."></textarea>
+
+            <div class="popover-actions">
+                <button type="submit">Valider</button>
+                <button type="button" id="close-popover">Annuler</button>
+            </div>
+        </form>
+
+        <div id="backdrop" class="backdrop" style="display:none;"></div>
     </main>
 
     <footer></footer>
     
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="script/aos-init.js"></script>
     <script src="script/script.js"></script>
     <script src="script/loader.js"></script>
 </body>

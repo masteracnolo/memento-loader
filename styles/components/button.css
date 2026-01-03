@@ -1,3 +1,18 @@
-button .add{
-    background-color: #D9D9D9;
+.add{
+    background-color: #bababa;
+    border: none;
+    border-radius: 17px;
+
+    width: 88px;
+    height: 88px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.add p{
+    color: rgb(36, 36, 36);
+    font-size: 5em;
+    margin: 0;
+
 }

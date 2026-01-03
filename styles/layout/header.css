@@ -2,11 +2,8 @@ header{
     display: flex;
     flex-direction: column;
     width: fit-content;
-
-    margin-left: 50%;
-    transform: translate(-50%);
+    margin: 0 auto;
     text-align: center;
-
     line-height: 1;
 }
 
