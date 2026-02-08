@@ -49,30 +49,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="script/aos-init.js"></script>
-    <script>
-    // Valeurs par défaut pour date et heure
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('date-input');
-        const timeInput = document.getElementById('time-input');
-        if (dateInput) {
-            const today = new Date();
-            dateInput.value = today.toISOString().split('T')[0];
-        }
-        if (timeInput) {
-            const now = new Date();
-            const pad = n => n.toString().padStart(2, '0');
-            let min = now.getMinutes();
-            let nextQ = Math.ceil(min / 15) * 15;
-            let hour = now.getHours();
-            if (nextQ === 60) {
-                nextQ = 0;
-                hour = (hour + 1) % 24;
-            }
-            timeInput.value = pad(hour) + ':' + pad(nextQ);
-        }
-    });
-    </script>
     <script src="script/script.js"></script>
-    <script src="script/loader.js"></script>
 </body>
 </html>
