@@ -14,9 +14,23 @@
 1. Clone this repository:
    ```bash
    git clone https://github.com/your-username/Memento-Loader.git
+   cd Memento-Loader
    ```
-2. Open the folder in your editor or serve it with a local server (e.g. Live Server, Python http.server, etc.)
-3. Open `index.html` in your browser.
+
+2. Open with a local server:
+   ```bash
+   # Using Python
+   python -m http.server 8000
+
+   # Using Node.js
+   npx serve
+
+   # Or use VS Code Live Server extension
+   ```
+
+3. Open `http://localhost:8000` in your browser
+
+**Alternative**: Simply open `index.html` directly in your browser (some features may require a server).
 
 ## Usage
 
@@ -30,16 +44,23 @@
 ```
 Memento-Loader/
 │
-├── index.html                # Main page
+├── index.html                # Main HTML file
 ├── script/
-│   ├── script.js             # Main logic (event management, localStorage)
+│   ├── script.js             # Core logic (events, storage, countdown, theme)
 │   └── aos-init.js           # AOS animations initialization
 ├── styles/
-│   ├── styles.css            # Global styles
-│   ├── variables.css         # CSS variables
-│   ├── components/           # Component styles (buttons, cards...)
-│   └── layout/               # Layout styles (header, main, footer...)
-├── assets/                   # Images, icons, static files
+│   ├── styles.css            # Global styles & theme support
+│   ├── variables.css         # CSS custom properties (light/dark)
+│   ├── components/
+│   │   ├── button.css        # Floating add button & theme toggle
+│   │   └── card.css          # Event cards with visual states
+│   └── layout/
+│       ├── header.css        # Page header
+│       ├── main.css          # Main container
+│       ├── form.css          # Event form & modal
+│       └── footer.css        # Footer
+├── assets/                   # Static assets (icons, images)
+├── test-countdown.html       # Countdown function test suite
 └── README.md                 # This file
 ```
 
