@@ -13,6 +13,78 @@ function loadEntries() {
     }
 }
 
+// Gestion du thème
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (prefersDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    updateThemeIcon();
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon();
+}
+
+function updateThemeIcon() {
+    const themeIcon = document.querySelector('.theme-icon');
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = currentTheme === 'dark' || (!currentTheme && prefersDark);
+    
+    if (themeIcon) {
+        themeIcon.textContent = isDark ? '☀' : '☾';
+    }
+}
+
+// Détermine l'état visuel d'une carte selon la proximité de l'événement
+function getEventState(targetDate) {
+    const now = new Date();
+    const diff = targetDate - now;
+    
+    if (diff <= 0) return 'passed';
+    if (diff <= 60 * 60 * 1000) return 'urgent'; // < 1h
+    if (diff <= 24 * 60 * 60 * 1000) return 'soon'; // < 24h
+    
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const eventDay = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+    
+    if (today.getTime() === eventDay.getTime()) return 'today';
+    
+    return 'normal';
+}
+
+// Applique les classes CSS selon l'état de l'événement
+function updateCardStates() {
+    document.querySelectorAll('.memento-card').forEach(card => {
+        const dateStr = card.getAttribute('data-date');
+        const hourStr = card.getAttribute('data-hour');
+        
+        if (dateStr && hourStr) {
+            const targetDate = new Date(dateStr + 'T' + hourStr);
+            const state = getEventState(targetDate);
+            
+            // Retire toutes les classes d'état
+            card.classList.remove('event-passed', 'event-urgent', 'event-soon', 'event-today');
+            
+            // Ajoute la classe appropriée
+            if (state !== 'normal') {
+                card.classList.add(`event-${state}`);
+            }
+        }
+    });
+}
+
 // Interval global pour mettre à jour tous les countdowns
 let globalCountdownInterval = null;
 
@@ -35,6 +107,9 @@ function startGlobalCountdown() {
                 }
             }
         });
+        
+        // Met à jour les états visuels des cartes
+        updateCardStates();
     }, 1000);
 }
 
@@ -42,10 +117,24 @@ function displayAllCards() {
     const container = document.getElementById('display-container');
     container.innerHTML = '';
     
-    window.formEntriesList.forEach(entry => {
-        const card = createCard(entry);
-        container.appendChild(card);
-    });
+    if (window.formEntriesList.length === 0) {
+        // Affiche un message quand il n'y a pas d'événements
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">📅</div>
+                <div class="empty-state-text">Aucun événement pour le moment</div>
+                <div class="empty-state-hint">Cliquez sur le bouton + pour ajouter votre premier événement</div>
+            </div>
+        `;
+    } else {
+        window.formEntriesList.forEach(entry => {
+            const card = createCard(entry);
+            container.appendChild(card);
+        });
+        
+        // Applique les états initiaux
+        updateCardStates();
+    }
     
     // Démarre le countdown global
     startGlobalCountdown();
@@ -55,6 +144,15 @@ main();
 
 function main() {
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialisation du thème
+    initTheme();
+    
+    // Gestion du toggle de thème
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
     const menuBtn = document.querySelector('.add');
     const menuContainer = document.getElementById('menu-container');
     const backdrop = document.getElementById('backdrop');

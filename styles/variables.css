@@ -1,4 +1,39 @@
-:root{
-    --default-text-color: #101010;
-    --default-background-color: #eeeeee;
+:root {
+    /* Mode clair */
+    --default-text-color: #1a1a1a;
+    --default-background-color: #f5f5f5;
+    --card-background: rgba(255, 255, 255, 0.9);
+    --card-shadow: rgba(0, 0, 0, 0.08);
+    --form-background: rgba(255, 255, 255, 0.95);
+    --form-input-bg: #fafafa;
+    --border-color: #e0e0e0;
+    --accent-color: #2563eb;
+    --accent-hover: #1d4ed8;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --muted-text: #6b7280;
+    --button-bg: #d1d5db;
+    --button-hover: #9ca3af;
+    --backdrop-overlay: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] {
+    /* Mode sombre */
+    --default-text-color: #e5e7eb;
+    --default-background-color: #111827;
+    --card-background: rgba(31, 41, 55, 0.9);
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --form-background: rgba(31, 41, 55, 0.95);
+    --form-input-bg: #1f2937;
+    --border-color: #374151;
+    --accent-color: #3b82f6;
+    --accent-hover: #60a5fa;
+    --success-color: #34d399;
+    --warning-color: #fbbf24;
+    --danger-color: #f87171;
+    --muted-text: #9ca3af;
+    --button-bg: #4b5563;
+    --button-hover: #6b7280;
+    --backdrop-overlay: rgba(0, 0, 0, 0.6);
 }
