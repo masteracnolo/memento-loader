@@ -33,7 +33,6 @@ Memento-Loader/
 ├── index.html                # Main page
 ├── script/
 │   ├── script.js             # Main logic (event management, localStorage)
-│   ├── loader.js             # (Reserved for future extensions)
 │   └── aos-init.js           # AOS animations initialization
 ├── styles/
 │   ├── styles.css            # Global styles
